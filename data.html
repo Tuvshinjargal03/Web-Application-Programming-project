@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-header">
+    <h1>Weather and Air Quality Dashboard</h1>
+    <p>Get current and historical weather & air quality information</p>
+  </header>
+  <div class="navbar-container">
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="data.html">Data</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+ 
+         
+    </div>
+    <h2>Charts</h2>
+   
+
+    <div class="button-container">
+      <button id="linechartBtn" class="action-btn">Line Chart</button>
+      <button id="barchartBtn" class="action-btn">Bar Chart</button>
+      <button id="doughnutchartBtn" class="action-btn">Doughnut Chart</button>
+    </div>
+    
+    <div class="charts-container">
+      <canvas id="lineChart" style="display: none; width: 400px; height: 200px;"></canvas>
+      <canvas id="barChart" style="display: none; width: 400px; height: 200px;"></canvas>
+      <canvas id="doughnutChart" style="display: none; width: 400px; height: 200px;"></canvas>
+    </div>
+    
+  
+  <!--<canvas id="myChart" width="400" height="200"></canvas>-->
+
+
+  <footer>
+    <p>&copy; 2024 Air Quality Monitoring. All rights reserved.</p>
+    <a href="https://www.example.com" target="_blank">External Resources</a>
+</footer>
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  function setupChart(ctx, type, label, data) {
+    return new Chart(ctx, {
+        type: type,
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const lineChartCanvas = document.getElementById('lineChart');
+    const barChartCanvas = document.getElementById('barChart');
+    const doughnutChartCanvas = document.getElementById('doughnutChart');
+    
+    // Define specific datasets for each chart
+    const lineChartData = [10, 15, 20, 25, 30];
+    const barChartData = [5, 10, 15, 10, 5];
+    const doughnutChartData = [50, 30, 20];
+
+    const lineChart = setupChart(lineChartCanvas.getContext('2d'), 'line', 'Line Chart', lineChartData);
+    const barChart = setupChart(barChartCanvas.getContext('2d'), 'bar', 'Bar Chart', barChartData);
+    const doughnutChart = setupChart(doughnutChartCanvas.getContext('2d'), 'doughnut', 'Doughnut Chart', doughnutChartData);
+    
+    lineChartCanvas.style.display = 'none';
+    barChartCanvas.style.display = 'none';
+    doughnutChartCanvas.style.display = 'none';
+
+    document.getElementById('linechartBtn').addEventListener('click', () => {
+        lineChartCanvas.style.display = 'block';
+        barChartCanvas.style.display = 'none';
+        doughnutChartCanvas.style.display = 'none';
+    });
+
+    document.getElementById('barchartBtn').addEventListener('click', () => {
+        lineChartCanvas.style.display = 'none';
+        barChartCanvas.style.display = 'block';
+        doughnutChartCanvas.style.display = 'none';
+    });
+
+    document.getElementById('doughnutchartBtn').addEventListener('click', () => {
+        lineChartCanvas.style.display = 'none';
+        barChartCanvas.style.display = 'none';
+        doughnutChartCanvas.style.display = 'block';
+    });
+});
+
+</script>
+  
+
+</body>
+</html>
