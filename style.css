@@ -1,7 +1,7 @@
 /* Root Variables */
 :root {
-  --bg-color1: #2a2b2d;
-  --bg-color2: #403e40;
+  --bg-color1: #6889cd;
+  --bg-color2: #36296e;
   --aqi-1: #d4e157;
   --aqi-2: #ffee58;
   --aqi-3: #ffca28;
@@ -102,7 +102,7 @@ hr {
 
 .card p {
   font-size: 14px;
-  color: #999;
+  color: white;
 }
 
 .card h2 {
