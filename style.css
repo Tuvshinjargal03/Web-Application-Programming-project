@@ -7,7 +7,24 @@
   --aqi-3: #ffca28;
   --aqi-4: #ff7043;
   --aqi-5: #ef5350;
+    --navbar-bg: var(--bg-color1);
+    --navbar-text-color: white;
+    --navbar-hover-bg: var(--bg-color2);
+    --navbar-hover-color: var(--aqi-5);
 }
+main {
+  padding: 20px;
+}
+
+section {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: var(--bg-color2);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 /* General Resets */
 * {
@@ -211,11 +228,12 @@ hr {
 /* Top Header */
 .top-header {
   text-align: center;
-  background: linear-gradient(90deg, #212529, #2a2b2d);
-  padding: 20px 15px;
+    background: linear-gradient(90deg, var(--bg-color1), var(--bg-color2));
+    padding: 20px;
   color: white;
   border-bottom: 2px solid #ea6e4b;
 }
+
 
 .top-header h1 {
   font-size: 28px;
