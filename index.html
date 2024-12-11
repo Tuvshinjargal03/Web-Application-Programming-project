@@ -14,6 +14,8 @@
     <p>Get air quality information</p>
   </header>
   <div id="google_translate_element"></div>
+  
+  
   <div class="navbar-container">
     <nav class="navbar">
 
@@ -21,11 +23,15 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="data.html">Data</a></li>
         <li><a href="about.html">About</a></li>
+        <li><div class="temp-toggle">
+          <button id="tempToggleBtn">Switch to °F</button>
+        </div></li>
 
         
       </ul></h2>
       
     </nav>
+    
       <div class="weather-input">
         <input type="text" name="city" id="city_input" placeholder="Enter city name">
         <button type="button" id="searchBtn">
@@ -295,6 +301,11 @@
     $(document).ready(function() {
         loadGoogleTranslate();
     });
+
+
+
+
+
 </script>
 
 

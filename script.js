@@ -5,8 +5,13 @@ let cityInput = document.getElementById('city_input'),
     currentWeatherCard = document.querySelector('.weather-left .card'),
     fiveDaysForecastCard = document.querySelector('.day-forecast'),
     aqiCard = document.querySelectorAll('.highlights .card')[0],
+    
+    
     sunriseCard = document.querySelector('.sunrise-sunset .item:nth-child(1) h2'),
     sunsetCard = document.querySelector('.sunrise-sunset .item:nth-child(2) h2'),
+    
+    
+    
     humidityVal = document.getElementById('humidityVal'),
     pressureVal = document.getElementById('pressureVal'),
     visibilityVal = document.getElementById('visibilityVal'),
