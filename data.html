@@ -13,6 +13,7 @@
     <h1>Weather and Air Quality Dashboard</h1>
     <p>Get air quality information</p>
   </header>
+  <div id="google_translate_element"></div>
   <div class="navbar-container">
     <nav class="navbar">
       <ul class="nav-list">
@@ -356,6 +357,28 @@ function updateSafeLines(safeLevels) {
 const safeLevels = [25, 50, 40, 30, 350, 20]; 
 updateSafeLines(safeLevels);
 
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,fr,de,es,it,ja,ko,zh-CN,ru,ar,hi',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false,
+        }, 'google_translate_element');
+    }
+    // Load Google Translate API
+    function loadGoogleTranslate() {
+        var script = document.createElement('script');
+        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        script.async = true;
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
+
+    $(document).ready(function() {
+        loadGoogleTranslate();
+    });
 </script>
 
 </body>
