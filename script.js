@@ -186,7 +186,7 @@ function getCityCoordinates() {
     cityInput.value = '';
     if (!cityName) return handleError('City name cannot be empty');
 
-    const GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
+    const GEOCODING_API_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
     fetch(GEOCODING_API_URL)
         .then(res => res.json())
         .then(data => {
@@ -231,3 +231,7 @@ cityInput.addEventListener('keyup', e => e.key === 'Enter' && getCityCoordinates
 window.addEventListener('load', getUserCoordinates);
 
 
+
+
+
+  

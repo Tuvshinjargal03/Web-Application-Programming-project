@@ -7,260 +7,131 @@
   <link href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" rel="stylesheet">
   <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <!--
-  <style>
-
-    :root {
-      --bg-color: #212529; 
-      --header-color: #2a2b2d; 
-      --text-color: #ffffff; 
-      --accent-color: #ea6e4b; 
-      --card-bg: #343a40; 
-      --footer-bg: #2a2b2d; 
-      --hover-color: #444b51; 
-    }
-
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Times New Roman', serif; 
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.8; 
-      padding: 0 20px;
-    }
-
-    /* Header Section */
-    .top-header {
-      text-align: center;
-      padding: 30px 20px;
-      background-color: var(--header-color);
-      color: var(--text-color);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    .top-header h1 {
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .top-header p {
-      font-size: 18px;
-      color: #d4d4d4;
-    }
-
-    .navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--navbar-bg);
-  padding: 10px 20px;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-list a {
-  text-decoration: none;
-  color: var(--navbar-text-color);
-  font-size: 16px;
-  padding: 5px 10px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-list a:hover {
-  background-color: var(--navbar-hover-bg);
-  color: var(--navbar-hover-color);
-  border-radius: 5px;
-}
-
-    /* Main Sections */
-    main {
-      margin-top: 20px;
-    }
-
-    section {
-      background-color: var(--card-bg);
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    section h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: var(--accent-color);
-      text-decoration: underline;
-      text-underline-offset: 5px;
-    }
-
-    section p {
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-
-    section ul {
-      list-style: none;
-      padding-left: 20px;
-    }
-
-    section ul li {
-      margin: 10px 0;
-      position: relative;
-      padding-left: 25px;
-    }
-
-    section ul li::before {
-      content: "•";
-      color: var(--accent-color);
-      position: absolute;
-      left: 0;
-      font-size: 20px;
-      line-height: 18px;
-    }
-
-    /* Footer Section */
-    footer {
-      background-color: var(--footer-bg);
-      text-align: center;
-      padding: 15px 10px;
-      color: var(--text-color);
-      font-size: 14px;
-    }
-
-    footer a {
-      color: var(--accent-color);
-      text-decoration: underline;
-      transition: color 0.3s;
-    }
-
-    footer a:hover {
-      color: #ffffff;
-    }
-  </style>-->
+  
 </head>
 <body>
   <!-- Header Section -->
   <header class="top-header">
     <h1>🌤️ Weather and Air Quality Dashboard</h1>
-    <p>Your go-to platform for real-time weather & air quality information.</p>
+    <p>Get air quality information</p>
   </header>
 
-  <!-- Navigation Bar -->
+
   <div class="navbar-container">
     <nav class="navbar">
       <ul class="nav-list">
         <li><a href="index.html">Home</a></li>
         <li><a href="data.html">Data</a></li>
         <li><a href="about.html">About</a></li>
-        <div class="dropdown">
-          <select id="languageSelect">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="zh">Chinese</option>
-            <option value="ar">Arabic</option>
-            <option value="hi">Hindi</option>
-            <option value="hi">Korean</option>
-          </select>
-        </div>
+
       </ul>
     </nav>
   </div>
 
-  <!-- Main Content -->
   <main>
-    <!-- Project Overview Section -->
-    <section>
-      <h2>📋 Project Overview</h2>
-      <p>
-        The Weather and Air Quality Dashboard provides comprehensive real-time and historical
-        weather and air quality data. It’s an essential tool for individuals, researchers, and policymakers aiming
-        to track environmental metrics, understand trends, and make informed decisions.
-      </p>
-    </section>
-
     <!-- Air Quality Metrics Section -->
     <section>
       <h2>🌫️ Air Quality Metrics</h2>
-      <p>Our dashboard monitors a range of air quality components critical for assessing environmental health:</p>
+      <p>Discover the key pollutants we monitor and their potential impacts:</p>
       <ul>
-        <li><strong>PM2.5:</strong> Fine particles that can penetrate deep into the lungs and cause respiratory issues.</li>
-        <li><strong>PM10:</strong> Larger particles affecting breathing and exacerbating asthma.</li>
-        <li><strong>CO2:</strong> A greenhouse gas influencing climate and air quality.</li>
-        <li><strong>SO2:</strong> A pollutant from industrial processes, contributing to acid rain.</li>
-        <li><strong>NOx:</strong> Gases forming smog and acid rain.</li>
-        <li><strong>NH3:</strong> Agricultural byproducts contributing to particulate matter.</li>
-        <li><strong>VOC:</strong> Organic chemicals affecting air quality.</li>
+        <li><strong>PM2.5:</strong> Fine particles that penetrate deep into the lungs, leading to respiratory and cardiovascular issues.</li>
+        <li><strong>PM10:</strong> Larger particles that can cause breathing problems and worsen asthma.</li>
+        <li><strong>CO2:</strong> A significant greenhouse gas contributing to climate change.</li>
+        <li><strong>SO2:</strong> Emitted from industrial processes, leading to acid rain and respiratory problems.</li>
+        <li><strong>NOx:</strong> Gases contributing to smog and acid rain.</li>
+        <li><strong>NH3:</strong> Ammonia from agriculture affecting particulate matter formation.</li>
       </ul>
+
+
+     </section>
+
+     <section>
+      <h2>🎥 Informational Videos</h2>
+      <p>Learn about the importance of weather and air quality through these engaging videos:</p><br>
+      <div class="video-grid">
+
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/rn9eUIbqCPU" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+        <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/e6rglsLy1Ys" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+      </div>
     </section>
 
-    <!-- Weather Tracking Section -->
-    <section>
-      <h2>🌦️ Weather Tracking</h2>
-      <ul>
-        <li><strong>Temperature:</strong> View current and historical temperature trends.</li>
-        <li><strong>Humidity:</strong> Monitor moisture levels in the air.</li>
-        <li><strong>Wind Speed:</strong> Analyze wind conditions critical for dispersion and forecasting.</li>
-        <li><strong>Visibility:</strong> Assess atmospheric clarity for transportation safety.</li>
-        <li><strong>Sunrise & Sunset Times:</strong> Daily information for lifestyle and photography enthusiasts.</li>
-      </ul>
-    </section>
+    <!-- Air Pollution Safety Section -->
+<section>
+  <h2>🛡️ Protect Yourself from Air Pollution</h2>
+  <p>Learn practical ways to minimize your exposure to air pollution and stay safe:</p>
 
-    <!-- Features Section -->
-    <section>
-      <h2>✨ Dashboard Features</h2>
-      <ul>
-        <li>Interactive <strong>line, bar, and doughnut charts</strong> to visualize trends and distributions.</li>
-        <li>Real-time updates using APIs for accurate and timely data.</li>
-        <li>Responsive design for usability across devices, including desktops and smartphones.</li>
-        <li>Color-coded indicators for air quality levels (e.g., green for good, red for hazardous).</li>
-      </ul>
-    </section>
+  <!-- Monitor Air Quality -->
+  <h3>1. Monitor Air Quality Levels</h3>
+  <p>Keep track of air quality in your area using reliable tools:</p>
+  <ul>
+    <li><a href="https://www.airnow.gov/" target="_blank">AirNow</a> – Real-time air quality updates in the U.S.</li>
+    <li><a href="https://waqi.info/" target="_blank">World Air Quality Index</a> – Global air quality data and forecasts.</li>
+  </ul>
+  <p>Check the Air Quality Index (AQI):</p>
+  <ul>
+    <li><strong>0-50 (Good):</strong> Safe for outdoor activities.</li>
+    <li><strong>51-100 (Moderate):</strong> Sensitive individuals should limit exposure.</li>
+    <li><strong>101+ (Unhealthy):</strong> Everyone should avoid prolonged outdoor exposure.</li>
+  </ul>
 
-    <!-- Technologies Section -->
-    <section>
-      <h2>💻 Technologies Used</h2>
-      <ul>
-        <li><strong>HTML5:</strong> Structuring the web pages.</li>
-        <li><strong>CSS3:</strong> Responsive styling and layout.</li>
-        <li><strong>JavaScript:</strong> Dynamic updates, user interactions, and chart rendering.</li>
-        <li><strong>Chart.js:</strong> Interactive charts for data visualization.</li>
-        <li><strong>OpenWeather API:</strong> Fetching real-time weather and air quality data.</li>
-      </ul>
-    </section>
+  <!-- Limit Outdoor Exposure -->
+  <h3>2. Limit Outdoor Exposure</h3>
+  <ul>
+    <li>Avoid outdoor activities during peak pollution hours (morning and evening rush hours).</li>
+    <li>Stay indoors when the AQI is unhealthy or during pollution events like wildfires or dust storms.</li>
+    <li>Use air purifiers at home to improve indoor air quality.</li>
+  </ul>
 
-    <!-- Benefits Section -->
+  <!-- Protect Yourself When Outdoors -->
+  <h3>3. Protect Yourself When Outdoors</h3>
+  <ul>
+    <li><strong>Wear a Mask:</strong> Use high-quality masks (e.g., N95, KN95) to filter fine particles (PM2.5).</li>
+    <li><strong>Stay Hydrated:</strong> Drink plenty of water to help your body flush out pollutants.</li>
+    <li><strong>Protect Your Eyes:</strong> Wear sunglasses to prevent irritation from airborne particles.</li>
+  </ul>
+
+  <!-- Healthy Lifestyle Tips -->
+  <h3>4. Adopt a Healthy Lifestyle</h3>
+  <ul>
+    <li>Eat antioxidant-rich foods (e.g., fruits, vegetables) to combat pollution's effects on your body.</li>
+    <li>Exercise indoors to maintain health without exposing yourself to outdoor pollutants.</li>
+  </ul>
+
+</section>
+
+    
+
+    <!-- Useful Resources -->
     <section>
-      <h2>🌍 Why This Dashboard Matters</h2>
-      <ul>
-        <li>Understand the impact of pollution on daily life and health.</li>
-        <li>Make informed decisions about outdoor activities based on weather and air quality.</li>
-        <li>Contribute to awareness campaigns with accurate data insights.</li>
-        <li>Analyze trends for climate and pollution studies.</li>
+      <h2>📚 Useful Resources</h2>
+      <p>Explore these resources to enhance your understanding of weather and air quality:</p>
+      <ul class="resource-list">
+        <li><a href="https://www.who.int/" target="_blank">World Health Organization (WHO)</a> – Guidelines on air quality and health impacts.</li>
+        <li><a href="https://www.epa.gov/" target="_blank">Environmental Protection Agency (EPA)</a> – Detailed pollutant and weather data.</li>
+        <li><a href="https://www.climate.gov/" target="_blank">Climate.gov</a> – Insights into global weather and climate trends.</li>
+        <li><a href="https://airnow.gov/" target="_blank">AirNow</a> – Real-time air quality updates.</li>
+        <li><a href="https://earthobservatory.nasa.gov/" target="_blank">NASA Earth Observatory</a> – Satellite imagery and climate science insights.</li>
       </ul>
     </section>
   </main>
-
+  
   <!-- Footer -->
   <footer>
     <p>&copy; 2024 Air Quality Monitoring Dashboard. All rights reserved.</p>
-    <a href="https://www.example.com">Explore More Resources</a>
+    <a href="https://www.who.int/">Explore More Resources</a>
   </footer>
 
   <!-- Scripts -->
   <script src="https://momentjs.com/downloads/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
 </body>
 </html>

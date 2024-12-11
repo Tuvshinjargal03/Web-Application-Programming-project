@@ -11,7 +11,7 @@
 <body>
   <header class="top-header">
     <h1>Weather and Air Quality Dashboard</h1>
-    <p>Get current and historical weather & air quality information</p>
+    <p>Get air quality information</p>
   </header>
   <div class="navbar-container">
     <nav class="navbar">
@@ -19,127 +19,344 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="data.html">Data</a></li>
         <li><a href="about.html">About</a></li>
-        <div class="dropdown">
-          <select id="languageSelect">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="zh">Chinese</option>
-            <option value="ar">Arabic</option>
-            <option value="hi">Hindi</option>
-            <option value="hi">Korean</option>
-          </select>
-        </div>
+
       </ul>
     </nav>
  
          
     </div>
-    <h2>Charts</h2>
-   
+    <h2 style="text-align: center;">Charts(real-time)</h2>   
+    <div class="search-container" style="text-align: center; margin-top: 20px;">
+      <input type="text" id="cityInput" placeholder="Enter city name" style="padding: 10px; font-size: 16px;">
+      <button id="searchButton" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Search</button>
+      
+    </div>
 
-    <div class="button-container">
-      <button id="linechartBtn" class="action-btn">Line Chart</button>
-      <button id="barchartBtn" class="action-btn">Bar Chart</button>
-      <button id="doughnutchartBtn" class="action-btn">Doughnut Chart</button>
-    </div>
-    
-    <div class="charts-container">
-      <canvas id="lineChart" style="display: none; width: 400px; height: 200px;"></canvas>
-      <canvas id="barChart" style="display: none; width: 400px; height: 200px;"></canvas>
-      <canvas id="doughnutChart" style="display: none; width: 400px; height: 200px;"></canvas>
-    </div>
-    
   
-  <!--<canvas id="myChart" width="400" height="200"></canvas>-->
+    <div id="chartTypeButtons">
+      
+      <div>
+        <button onclick="showLineChart()">Line Chart</button>
+      </div>
+      <div>
+        <button onclick="showBarChart()">Bar Chart</button>
+      </div>
+      <div>
+        <button onclick="showDoughnutChart()">Doughnut Chart</button>
+      </div>
+    </div>
+  
+
+
+ <br>
+ <br>
+ <div class="charts-container">
+<canvas id="lineChart" style="display: none;"></canvas>
+<canvas id="barChart" style="display: none;"></canvas>
+<canvas id="doughnutChart" style="display: none;"></canvas>
+ </div>
+<br>
+<br>
+  
 
 
   <footer>
     <p>&copy; 2024 Air Quality Monitoring. All rights reserved.</p>
-    <a href="https://www.example.com" target="_blank">External Resources</a>
+    <a href="https://www.who.int/" target="_blank">External Resources</a>
 </footer>
 
 <script src="https://momentjs.com/downloads/moment.min.js"></script>
  
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 
 <script>
-  function setupChart(ctx, type, label, data) {
-    return new Chart(ctx, {
-        type: type,
+let lineChart, barChart, doughnutChart;
+const apiKey = '4906d33803ebc5127933f127f971a9ed';
+let lat = 37.7749;
+let lon = -122.4194; 
+
+// Fetch weather and air quality data
+async function fetchWeatherAndAQIData(lat, lon) {
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    const airQualityUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+    try {
+        const weatherResponse = await fetch(weatherUrl);
+        const airQualityResponse = await fetch(airQualityUrl);
+
+        if (!weatherResponse.ok || !airQualityResponse.ok) {
+            throw new Error("Failed to fetch data.");
+        }
+
+        const weatherData = await weatherResponse.json();
+        const airQualityData = await airQualityResponse.json();
+
+        return { weatherData, airQualityData };
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        alert("Could not fetch weather and air quality data.");
+    }
+}
+
+// Fetch city coordinates by name
+async function fetchCityCoordinates(cityName) {
+    const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`;
+    try {
+        const response = await fetch(geocodingUrl);
+        if (!response.ok) {
+            throw new Error("Failed to fetch city coordinates.");
+        }
+        const data = await response.json();
+        if (data.length === 0) {
+            alert("City not found. Please try again.");
+            return null;
+        }
+        const { lat, lon } = data[0];
+        return { lat, lon };
+    } catch (error) {
+        console.error("Error fetching city coordinates:", error);
+        alert("Could not fetch city coordinates.");
+    }
+}
+
+// Initialize charts
+function initializeCharts() {
+    const lineChartCtx = document.getElementById('lineChart').getContext('2d');
+    lineChart = new Chart(lineChartCtx, {
+        type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May'],
+            labels: [],
+            datasets: [
+                {
+                    label: 'Temperature (°C)',
+                    data: [],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                },
+                {
+                    label: 'Humidity (%)',
+                    data: [],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 1.5,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 12,
+                        }
+                    }
+                },
+            },
+            scales: {
+                x: { title: { display: true, text: 'Time' } },
+                y: { title: { display: true, text: 'Value' } }
+            }
+        }
+    });
+
+    const barChartCtx = document.getElementById('barChart').getContext('2d');
+barChart = new Chart(barChartCtx, {
+    type: 'bar',
+    data: {
+        labels: ['PM2.5', 'PM10', 'NOx', 'NH3', 'CO2', 'SO2'],
+        datasets: [
+            {
+                label: 'Pollutant Levels (µg/m³)',
+                data: [], // Real-time data will populate this array
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#f7464a']
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true
+            },
+            annotation: {
+                annotations: {
+                    safeLine: {
+                        type: 'line',
+                        yMin: 50, 
+                        yMax: 50, 
+                        borderColor: 'green',
+                        borderWidth: 2,
+                        label: {
+                            content: 'Allowed Safe Amount',
+                            enabled: true,
+                            position: 'end',
+                            color: 'green',
+                            backgroundColor: 'white',
+                        }
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Pollutants'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Concentration (µg/m³)'
+                }
+            }
+        }
+    }
+});
+
+    const doughnutChartCtx = document.getElementById('doughnutChart').getContext('2d');
+    doughnutChart = new Chart(doughnutChartCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['PM2.5', 'PM10', 'NOx', 'NH3', 'CO2', 'SO2'],
             datasets: [{
-                label: label,
-                data: data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)'
-                ],
-                borderWidth: 1
+                data: [],
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#f7464a']
             }]
         },
         options: {
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            plugins: {
+                legend: { position: 'bottom' }
             }
         }
     });
 }
 
+// Update Line Chart
+async function updateLineChart(lat, lon) {
+    const { weatherData } = await fetchWeatherAndAQIData(lat, lon);
+
+    if (weatherData) {
+        lineChart.data.labels.push(new Date().toLocaleTimeString());
+        lineChart.data.datasets[0].data.push((weatherData.main.temp - 273.15).toFixed(1)); 
+        lineChart.data.datasets[1].data.push(weatherData.main.humidity);
+        lineChart.update();
+    }
+}
+
+// Update Bar and Doughnut Charts
+async function updateBarAndDoughnutCharts(lat, lon) {
+    const { airQualityData } = await fetchWeatherAndAQIData(lat, lon);
+
+    if (airQualityData) {
+        const components = airQualityData.list[0].components;
+
+        // Update Bar Chart
+        barChart.data.datasets[0].data = [
+            components.pm2_5,
+            components.pm10,
+            components.no2,
+            components.nh3,
+            components.co,
+            components.so2,
+        ];
+        barChart.update();
+
+        // Update Doughnut Chart
+        doughnutChart.data.datasets[0].data = [
+            components.pm2_5,
+            components.pm10,
+            components.no2,
+            components.nh3,
+            components.co,
+            components.so2,
+        ];
+        doughnutChart.update();
+    }
+}
+
+// Handle City Search
+async function handleCitySearch() {
+    const cityName = document.getElementById('cityInput').value.trim();
+    if (!cityName) {
+        alert("Please enter a city name.");
+        return;
+    }
+
+    const coordinates = await fetchCityCoordinates(cityName);
+    if (coordinates) {
+        lat = coordinates.lat;
+        lon = coordinates.lon;
+        updateLineChart(lat, lon);
+        updateBarAndDoughnutCharts(lat, lon);
+    }
+}
+
+// Show/Hide Chart Functions
+function showLineChart() {
+    document.getElementById('lineChart').style.display = 'block';
+    document.getElementById('barChart').style.display = 'none';
+    document.getElementById('doughnutChart').style.display = 'none';
+}
+
+function showBarChart() {
+    document.getElementById('lineChart').style.display = 'none';
+    document.getElementById('barChart').style.display = 'block';
+    document.getElementById('doughnutChart').style.display = 'none';
+}
+
+function showDoughnutChart() {
+    document.getElementById('lineChart').style.display = 'none';
+    document.getElementById('barChart').style.display = 'none';
+    document.getElementById('doughnutChart').style.display = 'block';
+}
+
+// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    const lineChartCanvas = document.getElementById('lineChart');
-    const barChartCanvas = document.getElementById('barChart');
-    const doughnutChartCanvas = document.getElementById('doughnutChart');
-    
-    // Define specific datasets for each chart
-    const lineChartData = [10, 15, 20, 25, 30];
-    const barChartData = [5, 10, 15, 10, 5];
-    const doughnutChartData = [50, 30, 20];
+    initializeCharts();
+    updateLineChart(lat, lon);
+    updateBarAndDoughnutCharts(lat, lon);
 
-    const lineChart = setupChart(lineChartCanvas.getContext('2d'), 'line', 'Line Chart', lineChartData);
-    const barChart = setupChart(barChartCanvas.getContext('2d'), 'bar', 'Bar Chart', barChartData);
-    const doughnutChart = setupChart(doughnutChartCanvas.getContext('2d'), 'doughnut', 'Doughnut Chart', doughnutChartData);
-    
-    lineChartCanvas.style.display = 'none';
-    barChartCanvas.style.display = 'none';
-    doughnutChartCanvas.style.display = 'none';
+    document.getElementById('searchButton').addEventListener('click', handleCitySearch);
+    document.querySelector('button[onclick="showLineChart()"]').addEventListener('click', showLineChart);
+    document.querySelector('button[onclick="showBarChart()"]').addEventListener('click', showBarChart);
+    document.querySelector('button[onclick="showDoughnutChart()"]').addEventListener('click', showDoughnutChart);
 
-    document.getElementById('linechartBtn').addEventListener('click', () => {
-        lineChartCanvas.style.display = 'block';
-        barChartCanvas.style.display = 'none';
-        doughnutChartCanvas.style.display = 'none';
-    });
-
-    document.getElementById('barchartBtn').addEventListener('click', () => {
-        lineChartCanvas.style.display = 'none';
-        barChartCanvas.style.display = 'block';
-        doughnutChartCanvas.style.display = 'none';
-    });
-
-    document.getElementById('doughnutchartBtn').addEventListener('click', () => {
-        lineChartCanvas.style.display = 'none';
-        barChartCanvas.style.display = 'none';
-        doughnutChartCanvas.style.display = 'block';
-    });
+    // Real-Time Updates
+    setInterval(() => updateLineChart(lat, lon), 7200000); 
+    setInterval(() => updateBarAndDoughnutCharts(lat, lon), 1800000); 
 });
 
+
+function updateSafeLines(safeLevels) {
+    barChart.options.plugins.annotation.annotations = safeLevels.map((value, index) => ({
+        type: 'line',
+        yMin: value,
+        yMax: value,
+        borderColor: 'green',
+        borderWidth: 2,
+        label: {
+            content: `Safe: ${value} µg/m³`,
+            enabled: true,
+            position: 'end',
+            color: 'green',
+            backgroundColor: 'white'
+        }
+    }));
+    barChart.update();
+}
+
+// Example of safe levels for each pollutant
+const safeLevels = [25, 50, 40, 30, 350, 20]; 
+updateSafeLines(safeLevels);
+
 </script>
-  
 
 </body>
 </html>
